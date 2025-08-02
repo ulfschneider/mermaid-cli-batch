@@ -1,7 +1,8 @@
 {
   "name": "mermaid-cli-batch",
-  "version": "0.1.0",
-  "description": "Command line processing of batches of mermaid diagram definitions into SVG images (PNG optional)",
+  "version": "0.1.1",
+  "type": "module",
+  "description": "Process multiple mermaid chart definition files in one pass with the console.",
   "keywords": [
     "mermaid",
     "cli",
@@ -18,7 +19,7 @@
   },
   "bin": "index.mjs",
   "scripts": {
-    "test": "node ./index.mjs --input tmp/*.mmd  --screenshot",
+    "test": "node ./index.mjs --verbose --input tmp/*.mmd  --screenshot",
     "help": "node ./index.mjs --help"
   },
   "dependencies": {
@@ -29,6 +30,6 @@
   },
   "peerDependencies": {
     "playwright": "1",
-    "mermaid-isomorphic": ">=3"
+    "mermaid-isomorphic": "3"
   }
 }
