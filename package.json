@@ -1,0 +1,30 @@
+{
+  "name": "mermaid-cli-batch",
+  "version": "0.1.0",
+  "description": "Command line processing of batches of mermaid diagram definitions into SVG images (PNG optional)",
+  "keywords": [
+    "mermaid",
+    "cli",
+    "batch"
+  ],
+  "license": "MIT",
+  "author": "Ulf Schneider",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": "index.mjs",
+  "scripts": {
+    "test": "node ./index.mjs --input tmp/*.mmd  --screenshot",
+    "help": "node ./index.mjs --help"
+  },
+  "dependencies": {
+    "chalk": "^5.4.1",
+    "command-line-args": "^6.0.1",
+    "command-line-usage": "^7.0.3",
+    "nanoid": "^5.1.5"
+  },
+  "peerDependencies": {
+    "playwright": "1",
+    "mermaid-isomorphic": ">=3"
+  }
+}
