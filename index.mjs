@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import * as fs from "node:fs";
 import * as path from "node:path";
 import chalk from "chalk";
@@ -57,7 +58,10 @@ if (args.help) {
   const usage = commandLineUsage([
     {
       header: `${pkg.name} version ${pkg.version}`,
-      content: `Command line processing of batches of mermaid diagram definitions into SVG images (PNG optional)`,
+      content: `Process multiple mermaid chart definition files in one pass with the console.
+
+      Example:
+      npx mermaid-cli-batch --input *.mmd`,
     },
     { header: "Options", optionList: argDefinitions },
   ]);
@@ -91,18 +95,18 @@ function getMermaidConfig() {
 
 function writeLog(message) {
   if (args.verbose) {
-    console.log(message);
+    console.log(chalk.white.bold(`[${pkg.name}]`), message);
   }
 }
 
 function enforceLog(message) {
-  console.log(message);
+  console.log(chalk.white.bold(`[${pkg.name}]`), message);
 }
 
-async function writeSvgFile(inputFileName, outputFileName) {
-  writeLog(`Writing mermaid diagram ${inputFileName} to ${outputFileName}`);
+async function writeOutput(chartDefinitionFileName, outputFileName) {
+  writeLog(`Transforming ${chartDefinitionFileName}`);
 
-  const chartDefinition = fs.readFileSync(inputFileName).toString();
+  const chartDefinition = fs.readFileSync(chartDefinitionFileName).toString();
   if (chartDefinition) {
     const renderOutput = await renderer([chartDefinition], {
       screenshot: args.screenshot,
@@ -116,69 +120,45 @@ async function writeSvgFile(inputFileName, outputFileName) {
       const screenshot = renderOutput.at(0)?.value?.screenshot;
 
       if (chart) {
+        //nanoids
         chart = chart.replace(
           new RegExp(escapeRegExp(id), "g"),
           `mermaid-${nanoid()}`,
         );
 
         //ensure the output folder exists
-        fs.mkdirSync(path.parse(outputFileName).dir, { recursive: true });
-        //write the chart svg
-        fs.writeFileSync(outputFileName, chart);
+        const outputLocation = path.parse(outputFileName);
+        fs.mkdirSync(outputLocation.dir, { recursive: true });
+
+        //write the svg
+        writeLog(`Writing ${outputFileName}.svg`);
+        fs.writeFileSync(outputFileName + ".svg", chart);
 
         if (screenshot) {
-          //write the chart screenshot png
-          const location = path.parse(outputFileName);
-          const screenshotFileName =
-            path.join(location.dir, location.name) + ".png";
-          writeLog(
-            `Writing mermaid diagram ${inputFileName} to ${screenshotFileName}`,
-          );
-
-          fs.writeFileSync(screenshotFileName, screenshot);
+          //write the png
+          writeLog(`Writing ${outputFileName}.png`);
+          fs.writeFileSync(outputFileName + ".png", screenshot);
         }
 
         return;
       }
     }
   }
-  enforceLog(chalk.red(`Error transforming mermaid diagram ${inputFileName}`));
+  enforceLog(chalk.red(`Error transforming ${chartDefinitionFileName}`));
 }
 
 async function processCharts() {
   if (args.input) {
-    for (const inputFileName of args.input) {
-      let input = path.parse(inputFileName);
-      const output = args.output || input.dir;
-      const outputFileName = path.join(output, input.name) + ".svg";
+    for (const chartDefinitionFileName of args.input) {
+      let inputLocation = path.parse(chartDefinitionFileName);
+      const outputLocation = args.output || inputLocation.dir;
 
-      await writeSvgFile(inputFileName, outputFileName);
+      //output file name is without extension
+      const outputFileName = path.join(outputLocation, inputLocation.name);
+
+      await writeOutput(chartDefinitionFileName, outputFileName);
     }
   }
 }
 
 await processCharts();
-
-/**
- * Options:
-   -V, --version                                   output the version number
-   -t, --theme [theme]                             Theme of the chart (choices: "default", "forest", "dark", "neutral", default: "default")
-   -w, --width [width]                             Width of the page (default: 800)
-   -H, --height [height]                           Height of the page (default: 600)
-   -i, --input <input>                             Input mermaid file. Files ending in .md will be treated as Markdown and all charts (e.g. ```mermaid (...)``` or :::mermaid (...):::) will be extracted and
-                                                   generated. Use `-` to read from stdin.
-   -o, --output [output]                           Output file. It should be either md, svg, png, pdf or use `-` to output to stdout. Optional. Default: input + ".svg"
-   -a, --artefacts [artefacts]                     Output artefacts path. Only used with Markdown input file. Optional. Default: output directory
-   -e, --outputFormat [format]                     Output format for the generated image. (choices: "svg", "png", "pdf", default: Loaded from the output file extension)
-   -b, --backgroundColor [backgroundColor]         Background color for pngs/svgs (not pdfs). Example: transparent, red, '#F0F0F0'. (default: "white")
-   -c, --configFile [configFile]                   JSON configuration file for mermaid.
-   -C, --cssFile [cssFile]                         CSS file for the page.
-   -I, --svgId [svgId]                             The id attribute for the SVG element to be rendered.
-   -s, --scale [scale]                             Puppeteer scale factor (default: 1)
-   -f, --pdfFit                                    Scale PDF to fit chart
-   -q, --quiet                                     Suppress log output
-   -p --puppeteerConfigFile [puppeteerConfigFile]  JSON configuration file for puppeteer.
-   --iconPacks <icons...>                          Icon packs to use, e.g. @iconify-json/logos. These should be Iconify NPM packages that expose a icons.json file, see
-                                                   https://iconify.design/docs/icons/json.html. These will be downloaded from https://unkpg.com when needed. (default: [])
-   -h, --help                                      display help for command
- */
