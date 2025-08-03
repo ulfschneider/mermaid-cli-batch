@@ -1,6 +1,6 @@
 {
   "name": "mermaid-cli-batch",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "description": "Process multiple mermaid chart definition files in one pass with the console.",
   "keywords": [
