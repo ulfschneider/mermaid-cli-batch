@@ -4,7 +4,7 @@ Process multiple mermaid chart definition files in one pass with the console.
 
 ## Install
 
-mermaid-cli-batch has a peer dependencies to playwright that you have to install by yourself prior of using the package:
+mermaid-cli-batch has a peer dependency to playwright that you have to install by yourself prior of using the package:
 
 `npm i playwright`
 `npx playwright install --with-deps chromium`
