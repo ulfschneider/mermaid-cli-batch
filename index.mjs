@@ -32,18 +32,6 @@ const argDefinitions = [
     description: "Create a PNG screenshot of the diagram (optional)",
   },
   {
-    name: "configFile",
-    alias: "c",
-    type: String,
-    description: "The mermaid config file (optional)",
-  },
-  {
-    name: "cssFile",
-    alias: "C",
-    type: String,
-    description: "The mermaid theme CSS file (optional)",
-  },
-  {
     name: "verbose",
     type: Boolean,
     description: "Verbose logging (otional)",
@@ -75,24 +63,6 @@ function escapeRegExp(string) {
   return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
 }
 
-function getCSS() {
-  if (args.cssFile) {
-    const css = fs.readFileSync(args.cssFile);
-    if (css) {
-      return css.toString();
-    }
-  }
-}
-
-function getMermaidConfig() {
-  if (args.configFile) {
-    const config = fs.readFileSync(args.configFile);
-    if (config) {
-      return config.toString();
-    }
-  }
-}
-
 function writeLog(message) {
   if (args.verbose) {
     console.log(chalk.white.bold(`[${pkg.name}]`), message);
@@ -110,8 +80,6 @@ async function writeOutput(chartDefinitionFileName, outputFileName) {
   if (chartDefinition) {
     const renderOutput = await renderer([chartDefinition], {
       screenshot: args.screenshot,
-      mermaidOptions: getMermaidConfig(),
-      css: getCSS(),
     });
 
     if (renderOutput?.length) {

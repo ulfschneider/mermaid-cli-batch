@@ -1,6 +1,6 @@
 {
   "name": "mermaid-cli-batch",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "description": "Process multiple mermaid chart definition files in one pass with the console.",
   "keywords": [
@@ -26,10 +26,10 @@
     "chalk": "^5.4.1",
     "command-line-args": "^6.0.1",
     "command-line-usage": "^7.0.3",
+    "mermaid-isomorphic": "^3.0.4",
     "nanoid": "^5.1.5"
   },
   "peerDependencies": {
-    "playwright": "1",
-    "mermaid-isomorphic": "3"
+    "playwright": "^1.54.2"
   }
 }
