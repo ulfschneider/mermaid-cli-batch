@@ -34,7 +34,7 @@ const argDefinitions = [
   {
     name: "verbose",
     type: Boolean,
-    description: "Verbose logging (otional)",
+    description: "Verbose logging (optional)",
   },
   {
     name: "version",
