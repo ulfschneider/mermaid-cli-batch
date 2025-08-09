@@ -1,6 +1,6 @@
 # mermaid-cli-batch
 
-Process multiple mermaid chart definition files in one pass with the console.
+A command line tool to process multiple [Mermaid](https://mermaid.js.org) chart definition files in one pass into SVG diagrams.
 
 ## Install
 

@@ -1,8 +1,8 @@
 {
   "name": "mermaid-cli-batch",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "type": "module",
-  "description": "Process multiple mermaid chart definition files in one pass with the console.",
+  "description": "A command line tool to process multiple Mermaid chart definition files in one pass into SVG diagrams.",
   "keywords": [
     "mermaid",
     "cli",
@@ -23,7 +23,7 @@
     "help": "node ./index.mjs --help"
   },
   "dependencies": {
-    "chalk": "^5.4.1",
+    "chalk": "^5.5.0",
     "command-line-args": "^6.0.1",
     "command-line-usage": "^7.0.3",
     "mermaid-isomorphic": "^3.0.4",

@@ -17,7 +17,7 @@ const argDefinitions = [
     type: String,
     multiple: true,
     description:
-      "The file or the files to process. Must be text files that contain each a mermaid diagram definition. A glob description of the file locations is possible.",
+      "The file or the files to process. Must be text files that contain each a Mermaid diagram definition. A glob description of the file locations is possible.",
   },
   {
     name: "output",
@@ -36,7 +36,12 @@ const argDefinitions = [
     type: Boolean,
     description: "Verbose logging (otional)",
   },
-  { name: "version", alias: "V", type: Boolean, description: "Print the help" },
+  {
+    name: "version",
+    alias: "V",
+    type: Boolean,
+    description: "Indicate the program version",
+  },
 ];
 
 const args = commandLineArgs(argDefinitions);
