@@ -4,7 +4,7 @@ A command line tool to process multiple [Mermaid](https://mermaid.js.org) chart 
 
 ## Install
 
-mermaid-cli-batch has a peer dependency to playwright that you have to install by yourself prior of using the package:
+mermaid-cli-batch has a peer dependency to Playwright that you have to install by yourself prior of using the package:
 
 ```sh
 npm i playwright
@@ -15,14 +15,14 @@ This allows you to update playwright *independent* of mermaid-cli-batch!
 
 ## Use
 
-To get a list of the possible options, do
-
-```sh
-npx mermaid-cli-batch --help
-```
-
-A sample use is
+For instance, to convert all `.mmd` files to SVG images, you run the command:
 
 ```sh
 npx mermaid-cli-batch --input *.mmd
+```
+
+To get a list of the possible options, do
+
+```sh
+npx mermaid-cli-batch -h
 ```

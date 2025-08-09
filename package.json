@@ -1,6 +1,6 @@
 {
   "name": "mermaid-cli-batch",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "type": "module",
   "description": "A command line tool to process multiple Mermaid chart definition files in one pass into SVG diagrams.",
   "keywords": [
